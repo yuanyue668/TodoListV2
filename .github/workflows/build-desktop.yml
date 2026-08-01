@@ -36,17 +36,18 @@ jobs:
       - name: Build Web Application
         run: npm run build
 
-      - name: Build Desktop Application
+      - name: Build Desktop Application (Windows)
+        if: matrix.os == 'windows-latest'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          CSC_IDENTITY_AUTO_DISCOVERY: false
-        run: |
-          if [ "${{ runner.os }}" = "Windows" ]; then
-            npm run electron:build:win
-          else
-            npm run electron:build:mac
-          fi
-        shell: bash
+        run: npx electron-builder --win --publish never
+
+      - name: Build Desktop Application (macOS)
+        if: matrix.os == 'macos-latest'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CSC_IDENTITY_AUTO_DISCOVERY: "false"
+        run: npx electron-builder --mac --publish never
 
       - name: Upload Windows Artifacts
         if: matrix.os == 'windows-latest'
@@ -76,5 +77,6 @@ jobs:
             release/*.exe
             release/*.dmg
             release/*.zip
+          fail_on_unmatched_files: false
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
