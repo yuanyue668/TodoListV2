@@ -1,0 +1,6 @@
+{
+  "name": "Todo List",
+  "description": "便签风格的多标签页待办事项，支持多种优先级模板、文字样式及拖拽排序",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
